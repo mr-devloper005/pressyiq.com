@@ -1,12 +1,13 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { ArrowRight, Filter, Search } from 'lucide-react'
+import { ArrowUpRight, Filter, Search } from 'lucide-react'
 import { buildPageMetadata } from '@/lib/seo'
 import { fetchSiteFeed } from '@/lib/site-connector'
 import { buildPostUrl, getPostTaskKey } from '@/lib/task-data'
 import { getMockPostsForTask } from '@/lib/mock-posts'
 import { SITE_CONFIG, type TaskKey } from '@/lib/site-config'
 import type { SitePost } from '@/lib/site-connector'
+import { editableDesignContract as dc, editablePalette as pal } from '@/editable/layouts/design-contract'
 import { EditableSiteShell } from '@/editable/shell/EditableSiteShell'
 import { pagesContent } from '@/editable/content/pages.content'
 
@@ -46,28 +47,29 @@ const matches = (post: SitePost, query: string, category: string, task: string) 
     .some((value) => compactText(value).includes(query))
 }
 
-function SearchResultCard({ post, index }: { post: SitePost; index: number }) {
+const inputClass = 'min-w-0 flex-1 bg-transparent text-base font-semibold text-[var(--slot4-page-text)] outline-none placeholder:text-[var(--slot4-soft-muted-text)]'
+const fieldWrap = 'flex items-center gap-3 rounded-xl border border-[var(--slot4-line)] bg-white px-4 py-3'
+
+function SearchResultCard({ post }: { post: SitePost; index?: number }) {
   const task = getPostTaskKey(post) as TaskKey | null
   const href = task ? buildPostUrl(task, post.slug) : `/article/${post.slug}`
   const image = getImage(post)
   const summary = summaryOf(post)
   const taskLabel = SITE_CONFIG.tasks.find((item) => item.key === task)?.label || 'Post'
-  const strong = index % 5 === 0
 
   return (
-    <Link href={href} className={`group block overflow-hidden border-b border-r border-black bg-white ${strong ? 'md:col-span-2' : ''}`}>
+    <Link href={href} className={`group flex flex-col overflow-hidden ${dc.surface.card} ${dc.motion.lift}`}>
       {image ? (
-        <div className={`relative overflow-hidden bg-black ${strong ? 'aspect-[16/7]' : 'aspect-[16/10]'}`}>
-          <img src={image} alt="" className="h-full w-full object-cover opacity-90 transition duration-500 group-hover:scale-105" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-          <span className="absolute left-4 top-4 bg-[#c92f2f] px-3 py-2 text-[10px] font-black uppercase tracking-[0.18em] text-white">{taskLabel}</span>
+        <div className="relative aspect-[16/10] overflow-hidden bg-[var(--slot4-media-bg)]">
+          <img src={image} alt="" className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+          <span className="absolute left-4 top-4 rounded-full bg-[var(--slot4-accent)] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-black">{taskLabel}</span>
         </div>
       ) : null}
-      <div className="p-5 sm:p-6">
-        {!image ? <span className="bg-[#c92f2f] px-3 py-2 text-[10px] font-black uppercase tracking-[0.18em] text-white">{taskLabel}</span> : null}
-        <h2 className="editorial-serif mt-4 line-clamp-3 text-2xl font-black leading-[1.03] tracking-[-0.035em] text-black">{post.title}</h2>
-        {summary ? <p className="mt-4 line-clamp-3 text-sm font-semibold leading-7 text-[var(--editable-page-text,#211713)]/65">{summary}</p> : null}
-        <span className="mt-5 inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.18em] opacity-60 group-hover:opacity-100">Open result <ArrowRight className="h-4 w-4" /></span>
+      <div className="flex flex-1 flex-col p-5 sm:p-6">
+        {!image ? <span className="w-fit rounded-full bg-[var(--slot4-accent)] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-black">{taskLabel}</span> : null}
+        <h2 className="mt-4 line-clamp-3 text-xl font-extrabold leading-[1.14] tracking-[-0.015em]">{post.title}</h2>
+        {summary ? <p className={`mt-3 line-clamp-3 text-sm leading-7 ${pal.mutedText}`}>{summary}</p> : null}
+        <span className="mt-auto pt-5 inline-flex items-center gap-1.5 text-sm font-bold text-black underline decoration-[var(--slot4-accent)] decoration-[4px] underline-offset-4">Open result <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" /></span>
       </div>
     </Link>
   )
@@ -87,52 +89,62 @@ export default async function SearchPage({ searchParams }: { searchParams?: Prom
 
   return (
     <EditableSiteShell>
-      <main className="min-h-screen bg-[#f7f4ef] text-black">
-        <section className="mx-auto max-w-[var(--editable-container)] border-x border-black bg-[#f7f4ef]">
-          <div className="grid border-b border-black bg-white md:grid-cols-[0.8fr_1.2fr]">
-            <div>
-              <div className="h-full bg-[#c92f2f] p-7 text-white sm:p-10 lg:p-14">
-                <p className="text-xs font-black uppercase tracking-[0.28em]">{pagesContent.search.hero.badge}</p>
-                <h1 className="editorial-brand mt-5 text-6xl font-black leading-[0.9] tracking-[-0.055em] sm:text-8xl">{pagesContent.search.hero.title}</h1>
-                <p className="mt-6 max-w-xl text-base font-semibold leading-8 text-white/75">{pagesContent.search.hero.description}</p>
+      <main className={dc.shell.page}>
+        {/* Search hero */}
+        <section className="relative overflow-hidden [background:var(--slot4-hero-bg)] text-white">
+          <div className="pointer-events-none absolute -right-20 -top-16 h-72 w-72 rounded-full bg-[var(--slot4-accent)]/15 blur-[90px]" />
+          <div className={`relative ${dc.shell.section} py-16 sm:py-20`}>
+            <div className="grid gap-10 lg:grid-cols-[1fr_1fr] lg:items-end">
+              <div>
+                <p className="flex items-center gap-2.5 text-[11px] font-bold uppercase tracking-[0.24em] text-white/70">
+                  <span className="h-3 w-3 rounded-sm bg-[var(--slot4-accent)]" />
+                  {pagesContent.search.hero.badge}
+                </p>
+                <h1 className={`mt-6 ${dc.type.heroTitle}`}>{pagesContent.search.hero.title}</h1>
+                <p className="mt-6 max-w-xl text-lg leading-8 text-white/65">{pagesContent.search.hero.description}</p>
               </div>
-            </div>
-            <form action="/search" className="self-center p-6 sm:p-10 lg:p-14">
-              <input type="hidden" name="master" value="1" />
-              <label className="flex items-center gap-3 border border-black bg-white px-4 py-3">
-                <Search className="h-5 w-5 opacity-45" />
-                <input name="q" defaultValue={query} placeholder={pagesContent.search.hero.placeholder} className="min-w-0 flex-1 bg-transparent text-base font-bold outline-none placeholder:text-current/35" />
-              </label>
-              <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                <label className="flex items-center gap-2 border border-black bg-white px-4 py-3">
-                  <Filter className="h-4 w-4 opacity-45" />
-                  <input name="category" defaultValue={category} placeholder="Category" className="min-w-0 flex-1 bg-transparent text-sm font-bold outline-none placeholder:text-current/35" />
-                </label>
-                <select name="task" defaultValue={task} className="border border-black bg-white px-4 py-3 text-sm font-black outline-none">
-                  <option value="">All content types</option>
-                  {enabledTasks.map((item) => <option key={item.key} value={item.key}>{item.label}</option>)}
-                </select>
-              </div>
-              <button className="mt-3 inline-flex h-12 w-full items-center justify-center border border-black bg-black px-6 text-xs font-black uppercase tracking-[0.18em] text-white transition hover:bg-[#c92f2f]" type="submit">Search</button>
-            </form>
-          </div>
 
-          <div className="flex flex-wrap items-end justify-between gap-4 border-b-4 border-black px-4 py-8 sm:px-6 lg:px-8">
-            <div>
-              <p className="text-xs font-black uppercase tracking-[0.24em] opacity-50">{results.length} results</p>
-              <h2 className="editorial-brand mt-2 text-4xl font-black tracking-[-0.04em]">{query ? `Results for “${query}”` : pagesContent.search.resultsTitle}</h2>
+              <form action="/search" className="rounded-2xl border border-white/10 bg-white/[0.05] p-5 sm:p-6">
+                <input type="hidden" name="master" value="1" />
+                <label className={fieldWrap}>
+                  <Search className="h-5 w-5 text-[var(--slot4-soft-muted-text)]" />
+                  <input name="q" defaultValue={query} placeholder={pagesContent.search.hero.placeholder} className={inputClass} />
+                </label>
+                <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                  <label className={fieldWrap}>
+                    <Filter className="h-4 w-4 text-[var(--slot4-soft-muted-text)]" />
+                    <input name="category" defaultValue={category} placeholder="Category" className={inputClass} />
+                  </label>
+                  <select name="task" defaultValue={task} className="rounded-xl border border-[var(--slot4-line)] bg-white px-4 py-3 text-sm font-bold text-[var(--slot4-page-text)] outline-none">
+                    <option value="">All content types</option>
+                    {enabledTasks.map((item) => <option key={item.key} value={item.key}>{item.label}</option>)}
+                  </select>
+                </div>
+                <button className="mt-3 inline-flex h-12 w-full items-center justify-center rounded-full bg-[var(--slot4-accent)] px-6 text-sm font-bold tracking-[-0.01em] text-black transition duration-300 hover:bg-white" type="submit">Search</button>
+              </form>
             </div>
-            <Link href="/article" className="inline-flex items-center gap-2 border border-black bg-white px-5 py-3 text-xs font-black uppercase">Browse latest <ArrowRight className="h-4 w-4" /></Link>
+          </div>
+        </section>
+
+        <section className={`${dc.shell.section} ${dc.shell.sectionY}`}>
+          <div className="flex flex-wrap items-end justify-between gap-4 border-b border-[var(--slot4-line)] pb-6">
+            <div>
+              <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--slot4-soft-muted-text)]">{results.length} results</p>
+              <h2 className="mt-2 text-3xl font-extrabold tracking-[-0.02em]">{query ? `Results for “${query}”` : pagesContent.search.resultsTitle}</h2>
+            </div>
+            <Link href="/updates" className="group inline-flex items-center gap-1.5 text-sm font-bold text-black underline decoration-[var(--slot4-accent)] decoration-[4px] underline-offset-4">
+              Browse latest <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </Link>
           </div>
 
           {results.length ? (
-            <div className="grid border-l border-t border-black md:grid-cols-2 xl:grid-cols-3">
+            <div className="slot4-stagger mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
               {results.map((post, index) => <SearchResultCard key={post.id || post.slug} post={post} index={index} />)}
             </div>
           ) : (
-            <div className="m-8 border border-dashed border-black bg-white p-10 text-center">
-              <p className="text-2xl font-black tracking-[-0.04em]">No matching posts found.</p>
-              <p className="mt-3 text-sm font-semibold opacity-60">Try a different keyword, task type, or category.</p>
+            <div className={`mt-8 ${dc.surface.soft} p-10 text-center`}>
+              <p className="text-2xl font-extrabold tracking-[-0.02em]">No matching posts found.</p>
+              <p className={`mt-3 text-sm ${pal.mutedText}`}>Try a different keyword, task type, or category.</p>
             </div>
           )}
         </section>

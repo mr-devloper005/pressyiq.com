@@ -1,44 +1,65 @@
 import Link from 'next/link'
+import { ArrowUpRight } from 'lucide-react'
 import { SITE_CONFIG } from '@/lib/site-config'
 import { pagesContent } from '@/editable/content/pages.content'
+import { editableDesignContract as dc, editablePalette as pal } from '@/editable/layouts/design-contract'
 import { EditableSiteShell } from '@/editable/shell/EditableSiteShell'
 
 export default function AboutPage() {
+  const about = pagesContent.about
   return (
     <EditableSiteShell>
-      <main className="bg-[#f7f4ef] text-[#111]">
-        <section className="border-b border-black bg-[#c92f2f] text-white">
-          <div className="mx-auto max-w-[var(--editable-container)] px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-            <p className="text-xs font-black uppercase tracking-[0.28em]">{pagesContent.about.badge}</p>
-            <h1 className="editorial-brand mt-5 max-w-5xl text-6xl font-black leading-[0.92] tracking-[-0.055em] sm:text-8xl">
-              Independent media, built for clear stories.
+      <main className={dc.shell.page}>
+        {/* Hero */}
+        <section className="relative overflow-hidden [background:var(--slot4-hero-bg)] text-white">
+          <div className="pointer-events-none absolute -right-20 -top-16 h-72 w-72 rounded-full bg-[var(--slot4-accent)]/15 blur-[90px]" />
+          <div className={`relative ${dc.shell.section} py-16 sm:py-20 lg:py-24`}>
+            <p className="flex items-center gap-2.5 text-[11px] font-bold uppercase tracking-[0.24em] text-white/70">
+              <span className="h-3 w-3 rounded-sm bg-[var(--slot4-accent)]" />
+              {about.badge}
+            </p>
+            <h1 className={`mt-6 ${dc.type.heroTitle} max-w-4xl`}>
+              Independent media, built for <span className="text-[var(--slot4-accent)]">clear stories.</span>
             </h1>
+            <p className="mt-7 max-w-2xl text-lg leading-8 text-white/65">{about.description}</p>
           </div>
         </section>
 
-        <section className="mx-auto grid max-w-[var(--editable-container)] border-x border-black bg-white lg:grid-cols-[1.45fr_0.55fr]">
-          <article className="border-b border-black p-7 sm:p-10 lg:border-b-0 lg:border-r lg:p-16">
-            <p className="text-sm font-black uppercase tracking-[0.2em] text-[#c92f2f]">About {SITE_CONFIG.name}</p>
-            <p className="editorial-serif mt-6 text-3xl font-bold leading-[1.25] sm:text-4xl">{pagesContent.about.description}</p>
-            <div className="article-content mt-10 space-y-6">
-              {pagesContent.about.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-            </div>
-          </article>
-          <aside className="grid bg-[#f7f4ef]">
-            {pagesContent.about.values.map((value, index) => (
-              <div key={value.title} className="border-b border-black p-7 last:border-b-0 sm:p-9">
-                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#c92f2f]">0{index + 1}</p>
-                <h2 className="editorial-serif mt-4 text-3xl font-black leading-tight">{value.title}</h2>
-                <p className="mt-4 text-sm leading-7 text-black/65">{value.description}</p>
+        {/* Story + values */}
+        <section className={`${dc.shell.section} ${dc.shell.sectionY}`}>
+          <div className="grid gap-8 lg:grid-cols-[1.4fr_0.6fr] lg:items-start">
+            <article className={`${dc.surface.card} p-7 sm:p-10 lg:p-12`}>
+              <p className="flex items-center gap-2.5 text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--slot4-page-text)]">
+                <span className="h-3 w-3 rounded-sm bg-[var(--slot4-accent)]" /> About {SITE_CONFIG.name}
+              </p>
+              <p className="mt-6 text-2xl font-extrabold leading-[1.25] tracking-[-0.015em] sm:text-3xl">{about.description}</p>
+              <div className="article-content mt-8 space-y-5">
+                {about.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
               </div>
-            ))}
-          </aside>
+            </article>
+
+            <aside className="grid gap-5">
+              {about.values.map((value, index) => (
+                <div key={value.title} className={`${dc.surface.soft} p-6 sm:p-7`}>
+                  <span className="grid h-9 w-9 place-items-center rounded-lg bg-black text-sm font-extrabold text-[var(--slot4-accent)]">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <h2 className="mt-4 text-xl font-extrabold leading-tight tracking-[-0.015em]">{value.title}</h2>
+                  <p className={`mt-3 text-sm leading-7 ${pal.mutedText}`}>{value.description}</p>
+                </div>
+              ))}
+            </aside>
+          </div>
         </section>
 
-        <section className="border-y border-black bg-[#171717] text-white">
-          <div className="mx-auto flex max-w-[var(--editable-container)] flex-col gap-6 px-4 py-12 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
-            <h2 className="editorial-brand max-w-3xl text-4xl font-black leading-none sm:text-5xl">Read the stories shaping the conversation.</h2>
-            <Link href="/search" className="inline-flex w-fit bg-[#c92f2f] px-6 py-4 text-xs font-black uppercase tracking-[0.18em]">Explore the archive</Link>
+        {/* CTA */}
+        <section className={`${dc.shell.section} pb-20 sm:pb-24`}>
+          <div className="flex flex-col gap-6 rounded-2xl [background:var(--slot4-dark-panel)] px-7 py-12 text-white sm:px-12 lg:flex-row lg:items-center lg:justify-between">
+            <h2 className="slot4-hero-display max-w-3xl text-3xl uppercase leading-[0.98] sm:text-5xl">Read the stories shaping the conversation.</h2>
+            <Link href="/search" className={`${dc.button.primary} w-fit shrink-0`}>
+              Explore the archive
+              <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </Link>
           </div>
         </section>
       </main>
