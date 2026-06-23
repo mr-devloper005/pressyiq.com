@@ -11,18 +11,18 @@ export type Slot4VisualPreset =
 
 export const visualPresets = {
   'editorial-paper': {
-    label: 'Editorial Paper',
-    mood: 'calm magazine authority',
-    fontDirection: 'serif headlines with quiet sans body',
+    label: 'Bold Yellow Press',
+    mood: 'high-impact, confident, editorial-bold',
+    fontDirection: 'oversized condensed display headlines with clean sans body',
     colors: {
-      background: '#f7f4ef',
-      foreground: '#111111',
-      muted: '#66615b',
-      primary: '#111111',
-      accent: '#c92f2f',
+      background: '#f3f3f0',
+      foreground: '#0c0c0c',
+      muted: '#56544f',
+      primary: '#0c0c0c',
+      accent: '#e6f24b',
       surface: '#ffffff',
     },
-    shape: 'sharp newsroom modules with black rules and red feature bands',
+    shape: 'near-black hero, vivid lime-yellow accents, white content cards, pill buttons',
   },
   'luxury-atelier': {
     label: 'Luxury Atelier',
@@ -121,34 +121,34 @@ export const visualSystem = {
           ? 'tech-directory'
           : 'organic-journal',
   radius: {
-    sm: '0rem',
-    md: '0rem',
-    lg: '0rem',
-    xl: '0rem',
+    sm: '0.75rem',
+    md: '1rem',
+    lg: '1.5rem',
+    xl: '2rem',
   },
   motion: {
     pageLoad: 'animate-in fade-in slide-in-from-bottom-4 duration-700',
-    cardHover: 'transition duration-300 hover:-translate-y-1 hover:shadow-xl',
+    cardHover: 'transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_26px_60px_rgba(20,16,55,0.16)]',
     softHover: 'transition duration-300 hover:opacity-85',
     reduceMotionSafe: 'motion-reduce:transform-none motion-reduce:transition-none',
   },
   typography: {
     eyebrow: 'text-xs font-semibold uppercase tracking-[0.24em]',
-    heroTitle: 'text-5xl font-semibold tracking-[-0.06em] sm:text-6xl lg:text-7xl',
-    sectionTitle: 'text-3xl font-semibold tracking-[-0.04em] sm:text-4xl',
+    heroTitle: 'text-5xl font-semibold tracking-[-0.045em] sm:text-6xl lg:text-7xl',
+    sectionTitle: 'text-3xl font-semibold tracking-[-0.035em] sm:text-4xl',
     body: 'text-base leading-8',
     caption: 'text-xs font-medium uppercase tracking-[0.18em]',
   },
   surfaces: {
-    glass: 'border border-white/15 bg-white/10 backdrop-blur-xl',
-    paper: 'border border-black/10 bg-white shadow-[0_24px_70px_rgba(15,23,42,0.08)]',
-    quiet: 'border border-black/10 bg-black/[0.03]',
-    dark: 'border border-white/10 bg-black/30 shadow-[0_24px_70px_rgba(0,0,0,0.25)]',
+    glass: 'rounded-3xl border border-white/15 bg-white/10 backdrop-blur-xl',
+    paper: 'rounded-3xl border border-[var(--slot4-line)] bg-white shadow-[0_8px_30px_rgba(20,16,55,0.08)]',
+    quiet: 'rounded-3xl border border-[var(--slot4-line)] bg-[var(--slot4-panel-bg)]',
+    dark: 'rounded-3xl border border-white/10 [background:var(--slot4-dark-panel)] shadow-[0_30px_80px_rgba(0,0,0,0.35)]',
   },
   layout: {
-    page: 'mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8',
-    sectionY: 'py-12 sm:py-16 lg:py-20',
-    cardGrid: 'grid gap-5 sm:grid-cols-2 lg:grid-cols-3',
+    page: 'mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8',
+    sectionY: 'py-16 sm:py-20 lg:py-28',
+    cardGrid: 'grid gap-6 sm:grid-cols-2 lg:grid-cols-3',
   },
 } as const
 

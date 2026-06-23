@@ -1,23 +1,46 @@
 import type { CSSProperties } from 'react'
 
+/**
+ * Olioxy-inspired identity for this Media Distribution site.
+ * Vivid lime-yellow accent on near-black surfaces, clean white content
+ * sections, oversized condensed display type, pill buttons. All visible color
+ * comes from these CSS variables so every editable page inherits it at once.
+ */
 export const editableRootStyle = {
-  '--slot4-page-bg': '#f7f4ef',
-  '--slot4-page-text': '#111111',
-  '--slot4-panel-bg': '#efeae3',
-  '--slot4-surface-bg': '#fffdfa',
-  '--slot4-muted-text': '#514e49',
-  '--slot4-soft-muted-text': '#77716a',
-  '--slot4-accent': '#c92f2f',
-  '--slot4-accent-fill': '#c92f2f',
-  '--slot4-accent-soft': '#f3d8d3',
-  '--slot4-dark-bg': '#111111',
+  '--slot4-page-bg': '#f3f3f0',
+  '--slot4-page-text': '#0c0c0c',
+  '--slot4-panel-bg': '#ecebe5',
+  '--slot4-surface-bg': '#ffffff',
+  '--slot4-muted-text': '#56544f',
+  '--slot4-soft-muted-text': '#85837d',
+  '--slot4-accent': '#e6f24b',
+  '--slot4-accent-fill': '#e6f24b',
+  '--slot4-accent-soft': '#f3f7c4',
+  '--slot4-dark-bg': '#0a0a0a',
   '--slot4-dark-text': '#ffffff',
-  '--slot4-media-bg': '#e4e0da',
-  '--slot4-cream': '#f7f4ef',
-  '--slot4-warm': '#fffdfa',
-  '--slot4-lavender': '#c92f2f',
-  '--slot4-gray': '#ece9e4',
-  '--slot4-body-gradient': 'linear-gradient(180deg, #f7f4ef 0%, #fffdfa 52%, #eeeae4 100%)',
+  '--slot4-media-bg': '#e7e6e0',
+  '--slot4-cream': '#f3f3f0',
+  '--slot4-warm': '#ffffff',
+  '--slot4-lavender': '#e6f24b',
+  '--slot4-gray': '#ebeae4',
+  '--slot4-body-gradient': 'linear-gradient(180deg, #f3f3f0 0%, #ffffff 55%, #eeede7 100%)',
+  /* Extended Olioxy tokens (additive — original tokens above are preserved). */
+  '--slot4-accent-2': '#e6f24b',
+  '--slot4-accent-3': '#c7d92f',
+  '--slot4-ink-soft': '#33322e',
+  '--slot4-line': 'rgba(12,12,12,0.12)',
+  '--slot4-gradient': 'linear-gradient(120deg, #e6f24b 0%, #d6e63f 100%)',
+  '--slot4-gradient-soft': 'linear-gradient(120deg, #e6f24b 0%, #eef58a 100%)',
+  '--slot4-hero-bg': 'radial-gradient(120% 130% at 50% -10%, #1c1c1c 0%, #0c0c0c 58%, #050505 100%)',
+  '--slot4-dark-panel': 'linear-gradient(160deg, #171717 0%, #0a0a0a 100%)',
+  '--slot4-glow': '0 0 0 1px rgba(230,242,75,0.55), 0 26px 60px rgba(0,0,0,0.45)',
+  /* Legacy aliases used by older page layouts — these were undefined in the
+     base template, which made pages collapse to full width. Defining them here
+     gives every editable page a proper container + border at once. */
+  '--editable-container': '1200px',
+  '--editable-border': 'rgba(12,12,12,0.12)',
+  '--editable-page-bg': '#f3f3f0',
+  '--editable-page-text': '#0c0c0c',
 } as CSSProperties
 
 export const editablePalette = {
@@ -40,56 +63,66 @@ export const editablePalette = {
   warmBg: 'bg-[var(--slot4-warm)]',
   lavenderBg: 'bg-[var(--slot4-lavender)]',
   grayBg: 'bg-[var(--slot4-gray)]',
-  border: 'border-black/15',
-  darkBorder: 'border-white/20',
-  shadow: 'shadow-[0_10px_30px_rgba(17,17,17,0.08)]',
-  shadowStrong: 'shadow-[0_24px_70px_rgba(17,17,17,0.18)]',
-  overlay: 'bg-[linear-gradient(180deg,rgba(0,0,0,0.02),rgba(0,0,0,0.78))]',
+  border: 'border-[var(--slot4-line)]',
+  darkBorder: 'border-white/12',
+  shadow: 'shadow-[0_8px_30px_rgba(12,12,12,0.07)]',
+  shadowStrong: 'shadow-[0_28px_70px_rgba(12,12,12,0.14)]',
+  overlay: 'bg-[linear-gradient(180deg,rgba(5,5,5,0.05),rgba(5,5,5,0.82))]',
+  /* Used only on dark surfaces — yellow is unreadable on light. */
+  gradientText: 'text-[var(--slot4-accent)]',
 } as const
 
 export const editableDesignContract = {
   shell: {
     page: `min-h-screen ${editablePalette.pageBg} ${editablePalette.pageText}`,
-    section: 'mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-10',
-    sectionY: 'py-12 sm:py-16 lg:py-20',
+    section: 'mx-auto w-full max-w-[1200px] px-5 sm:px-6 lg:px-8',
+    sectionY: 'py-16 sm:py-20 lg:py-28',
   },
   layout: {
-    safeGrid: 'grid gap-px bg-black/15 md:grid-cols-2 xl:grid-cols-3',
+    safeGrid: 'grid gap-6 md:grid-cols-2 xl:grid-cols-3',
     featureGrid: 'grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-start',
-    rail: 'flex snap-x gap-4 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden',
-    minRailCard: 'w-[230px] shrink-0 snap-start sm:w-[260px]',
+    rail: 'flex snap-x gap-5 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden',
+    minRailCard: 'w-[280px] shrink-0 snap-start sm:w-[320px]',
   },
   type: {
-    eyebrow: 'text-[11px] font-black uppercase tracking-[0.2em]',
-    heroTitle: 'text-4xl font-black leading-[0.94] tracking-[-0.055em] sm:text-6xl lg:text-[5.4rem]',
-    sectionTitle: 'text-3xl font-black leading-none tracking-[-0.045em] sm:text-4xl',
+    eyebrow: 'text-[11px] font-bold uppercase tracking-[0.24em]',
+    /* Oversized condensed display — the Anton face is applied via .slot4-hero-display. */
+    heroTitle: 'slot4-hero-display text-5xl uppercase leading-[0.92] tracking-[-0.01em] sm:text-7xl lg:text-[6.4rem]',
+    sectionTitle: 'text-3xl font-extrabold leading-[1.02] tracking-[-0.02em] sm:text-[2.8rem]',
     body: 'text-base leading-8',
   },
   surface: {
-    card: `border ${editablePalette.border} ${editablePalette.surfaceBg}`,
-    soft: `border ${editablePalette.border} ${editablePalette.surfaceBg}`,
-    dark: `${editablePalette.darkBg} ${editablePalette.darkText}`,
+    card: `rounded-2xl border ${editablePalette.border} ${editablePalette.surfaceBg} ${editablePalette.shadow}`,
+    soft: `rounded-2xl border ${editablePalette.border} bg-[var(--slot4-panel-bg)]`,
+    dark: `rounded-2xl border border-white/10 [background:var(--slot4-dark-panel)] ${editablePalette.darkText}`,
   },
   button: {
-    primary: `inline-flex items-center justify-center gap-2 bg-[var(--slot4-dark-bg)] px-7 py-3.5 text-xs font-black uppercase tracking-[0.12em] text-white transition hover:bg-[var(--slot4-accent-fill)]`,
-    secondary: `inline-flex items-center justify-center gap-2 border border-black/30 bg-transparent px-7 py-3.5 text-xs font-black uppercase tracking-[0.12em] text-black transition hover:bg-black hover:text-white`,
-    accent: `inline-flex items-center justify-center gap-2 bg-[var(--slot4-accent-fill)] px-7 py-3.5 text-xs font-black uppercase tracking-[0.12em] text-white transition hover:bg-black`,
+    primary:
+      'group inline-flex items-center justify-center gap-2 rounded-full bg-[var(--slot4-accent)] px-7 py-3.5 text-sm font-bold tracking-[-0.01em] text-black transition duration-300 hover:-translate-y-0.5 hover:bg-[var(--slot4-accent-3)] hover:shadow-[0_16px_34px_rgba(230,242,75,0.4)]',
+    secondary:
+      'group inline-flex items-center justify-center gap-2 rounded-full bg-[var(--slot4-dark-bg)] px-7 py-3.5 text-sm font-bold tracking-[-0.01em] text-white transition duration-300 hover:-translate-y-0.5 hover:bg-[var(--slot4-accent)] hover:text-black',
+    accent:
+      'group inline-flex items-center justify-center gap-2 rounded-full bg-[var(--slot4-accent)] px-7 py-3.5 text-sm font-bold tracking-[-0.01em] text-black transition duration-300 hover:-translate-y-0.5 hover:bg-[var(--slot4-accent-3)]',
+    ghostDark:
+      'group inline-flex items-center justify-center gap-2 rounded-full border border-white/25 bg-transparent px-7 py-3.5 text-sm font-bold text-white transition duration-300 hover:-translate-y-0.5 hover:border-[var(--slot4-accent)] hover:text-[var(--slot4-accent)]',
   },
   media: {
-    frame: `relative overflow-hidden ${editablePalette.mediaBg}`,
+    frame: `relative overflow-hidden rounded-2xl ${editablePalette.mediaBg}`,
     ratio: 'aspect-[4/3]',
   },
   motion: {
-    lift: 'transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_48px_rgba(17,17,17,0.14)]',
-    fade: 'transition duration-300 hover:opacity-75',
+    lift: 'transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_24px_56px_rgba(12,12,12,0.16)]',
+    glow: 'transition duration-300 hover:-translate-y-1.5 hover:shadow-[var(--slot4-glow)]',
+    fade: 'transition duration-300 hover:opacity-80',
   },
 } as const
 
 export const aiLayoutRules = [
   'All visible layout decisions belong inside src/editable; keep data, SEO, API, and route logic untouched.',
-  'Use a publication-style white masthead, black category navigation, red editorial accents, and sharp image-led grids.',
+  'Use an Olioxy-style identity: near-black hero/footer, vivid lime-yellow accents, clean white content sections, oversized condensed uppercase display headlines, and pill buttons.',
   'Keep dynamic post fetching intact and never replace backend posts with mock arrays.',
   'Use postHref() for all post links so route aliases and task-specific detail pages remain functional.',
-  'Prioritize readable desktop and mobile layouts with broad story columns and a focused long-form article measure.',
+  'Homepage cards are text-first (title, summary, category, CTA) with no images; image-led cards are reserved for archive and detail pages.',
+  'Yellow is for fills and dark-surface accents only; on light surfaces use near-black text with yellow highlights/pills.',
   'Branding must remain dynamic from SITE_CONFIG; never hardcode a reference publication name or logo.',
 ] as const
