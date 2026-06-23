@@ -2,6 +2,7 @@
 
 import { FileText, Mail, Megaphone } from 'lucide-react'
 import { pagesContent } from '@/editable/content/pages.content'
+import { editableDesignContract as dc } from '@/editable/layouts/design-contract'
 import { EditableContactLeadForm } from '@/editable/components/EditableContactLeadForm'
 import { EditableSiteShell } from '@/editable/shell/EditableSiteShell'
 
@@ -12,31 +13,46 @@ const desks = [
 ]
 
 export default function ContactPage() {
+  const contact = pagesContent.contact
   return (
     <EditableSiteShell>
-      <main className="bg-[#f7f4ef] text-[#111]">
-        <section className="border-b border-black bg-white">
-          <div className="mx-auto max-w-[var(--editable-container)] px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
-            <p className="text-xs font-black uppercase tracking-[0.28em] text-[#c92f2f]">{pagesContent.contact.eyebrow}</p>
-            <h1 className="editorial-brand mt-4 max-w-5xl text-6xl font-black leading-[0.92] tracking-[-0.055em] sm:text-8xl">{pagesContent.contact.title}</h1>
-            <p className="mt-6 max-w-2xl border-l-4 border-[#c92f2f] pl-5 text-base font-semibold leading-8 text-black/65">{pagesContent.contact.description}</p>
+      <main className={dc.shell.page}>
+        {/* Hero */}
+        <section className="relative overflow-hidden [background:var(--slot4-hero-bg)] text-white">
+          <div className="pointer-events-none absolute -right-20 -top-16 h-72 w-72 rounded-full bg-[var(--slot4-accent)]/15 blur-[90px]" />
+          <div className={`relative ${dc.shell.section} py-16 sm:py-20`}>
+            <p className="flex items-center gap-2.5 text-[11px] font-bold uppercase tracking-[0.24em] text-white/70">
+              <span className="h-3 w-3 rounded-sm bg-[var(--slot4-accent)]" />
+              {contact.eyebrow}
+            </p>
+            <h1 className={`mt-6 ${dc.type.heroTitle} max-w-4xl`}>{contact.title}</h1>
+            <p className="mt-7 max-w-2xl border-l-2 border-[var(--slot4-accent)] pl-5 text-lg leading-8 text-white/65">{contact.description}</p>
           </div>
         </section>
 
-        <section className="mx-auto grid max-w-[var(--editable-container)] border-x border-black bg-white lg:grid-cols-[0.72fr_1.28fr]">
-          <aside className="border-b border-black bg-[#171717] text-white lg:border-b-0 lg:border-r">
-            {desks.map((desk, index) => (
-              <div key={desk.title} className="border-b border-white/25 p-7 last:border-b-0 sm:p-9">
-                <div className="flex items-center justify-between"><desk.icon className="h-5 w-5 text-[#f34a43]" /><span className="text-xs font-black text-white/45">0{index + 1}</span></div>
-                <h2 className="editorial-serif mt-6 text-3xl font-black">{desk.title}</h2>
-                <p className="mt-3 text-sm leading-7 text-white/65">{desk.body}</p>
-              </div>
-            ))}
-          </aside>
-          <div className="p-6 sm:p-10 lg:p-14">
-            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#c92f2f]">Send a message</p>
-            <h2 className="editorial-serif mt-3 text-4xl font-black">{pagesContent.contact.formTitle}</h2>
-            <EditableContactLeadForm />
+        {/* Desks + form */}
+        <section className={`${dc.shell.section} ${dc.shell.sectionY}`}>
+          <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+            <aside className="grid gap-4">
+              {desks.map((desk, index) => (
+                <div key={desk.title} className={`${dc.surface.dark} p-6 sm:p-7`}>
+                  <div className="flex items-center justify-between">
+                    <desk.icon className="h-5 w-5 text-[var(--slot4-accent)]" />
+                    <span className="text-xs font-bold text-white/40">{String(index + 1).padStart(2, '0')}</span>
+                  </div>
+                  <h2 className="mt-5 text-xl font-extrabold tracking-[-0.015em]">{desk.title}</h2>
+                  <p className="mt-2 text-sm leading-7 text-white/60">{desk.body}</p>
+                </div>
+              ))}
+            </aside>
+
+            <div className={`${dc.surface.card} p-6 sm:p-9 lg:p-10`}>
+              <p className="flex items-center gap-2.5 text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--slot4-page-text)]">
+                <span className="h-3 w-3 rounded-sm bg-[var(--slot4-accent)]" /> Send a message
+              </p>
+              <h2 className="mt-3 text-3xl font-extrabold tracking-[-0.02em]">{contact.formTitle}</h2>
+              <EditableContactLeadForm />
+            </div>
           </div>
         </section>
       </main>

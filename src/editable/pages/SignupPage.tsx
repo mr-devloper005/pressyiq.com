@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { buildPageMetadata } from '@/lib/seo'
+import { editableDesignContract as dc } from '@/editable/layouts/design-contract'
 import { EditableSiteShell } from '@/editable/shell/EditableSiteShell'
 import { EditableLocalSignupForm } from '@/editable/components/EditableLocalAuthForms'
 import { pagesContent } from '@/editable/content/pages.content'
@@ -10,22 +11,37 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function SignupPage() {
+  const signup = pagesContent.auth.signup
   return (
     <EditableSiteShell>
-      <main className="bg-[#f7f4ef] text-[#111]">
-        <section className="mx-auto grid min-h-[calc(100vh-12rem)] max-w-[var(--editable-container)] border-x border-black bg-white lg:grid-cols-[0.92fr_1.08fr]">
-          <div className="flex flex-col justify-center border-b border-black p-7 sm:p-12 lg:border-b-0 lg:border-r lg:p-16">
-            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#c92f2f]">Create account</p>
-            <h1 className="editorial-serif mt-3 text-4xl font-black">{pagesContent.auth.signup.formTitle}</h1>
+      <main className={`${dc.shell.page} ${dc.shell.section} py-12 sm:py-16 lg:py-20`}>
+        <div className="mx-auto grid max-w-5xl overflow-hidden rounded-3xl border border-[var(--slot4-line)] shadow-[0_28px_70px_rgba(12,12,12,0.14)] lg:grid-cols-[0.95fr_1.05fr]">
+          {/* Form side */}
+          <div className="flex flex-col justify-center bg-white p-7 sm:p-12 lg:p-14">
+            <p className="flex items-center gap-2.5 text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--slot4-page-text)]">
+              <span className="h-3 w-3 rounded-sm bg-[var(--slot4-accent)]" /> Create account
+            </p>
+            <h1 className="mt-3 text-3xl font-extrabold tracking-[-0.02em]">{signup.formTitle}</h1>
             <EditableLocalSignupForm />
-            <p className="mt-5 border-t border-black pt-5 text-sm text-black/65">Already have an account? <Link href="/login" className="font-black text-[#c92f2f] underline-offset-4 hover:underline">{pagesContent.auth.signup.loginCta}</Link></p>
+            <p className="mt-6 border-t border-[var(--slot4-line)] pt-5 text-sm text-[var(--slot4-muted-text)]">
+              Already have an account?{' '}
+              <Link href="/login" className="font-bold text-[var(--slot4-page-text)] underline decoration-[var(--slot4-accent)] decoration-[3px] underline-offset-4">
+                {signup.loginCta}
+              </Link>
+            </p>
           </div>
-          <div className="flex flex-col justify-center bg-[#171717] p-8 text-white sm:p-12 lg:p-16">
-            <p className="text-xs font-black uppercase tracking-[0.28em] text-[#f34a43]">{pagesContent.auth.signup.badge}</p>
-            <h2 className="editorial-brand mt-5 max-w-xl text-6xl font-black leading-[0.92] tracking-[-0.055em] sm:text-8xl">{pagesContent.auth.signup.title}</h2>
-            <p className="mt-6 max-w-lg text-sm font-semibold leading-8 text-white/68">{pagesContent.auth.signup.description}</p>
+
+          {/* Brand side */}
+          <div className="relative flex flex-col justify-center overflow-hidden [background:var(--slot4-hero-bg)] p-8 text-white sm:p-12 lg:p-14">
+            <div className="pointer-events-none absolute -left-16 -bottom-12 h-60 w-60 rounded-full bg-[var(--slot4-accent)]/18 blur-[80px]" />
+            <p className="relative flex items-center gap-2.5 text-[11px] font-bold uppercase tracking-[0.24em] text-white/70">
+              <span className="h-3 w-3 rounded-sm bg-[var(--slot4-accent)]" />
+              {signup.badge}
+            </p>
+            <h2 className="slot4-hero-display relative mt-5 max-w-md text-4xl uppercase leading-[0.96] sm:text-6xl">{signup.title}</h2>
+            <p className="relative mt-6 max-w-md text-base leading-8 text-white/65">{signup.description}</p>
           </div>
-        </section>
+        </div>
       </main>
     </EditableSiteShell>
   )
